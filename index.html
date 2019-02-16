@@ -1,0 +1,622 @@
+<html>
+<head>
+  <title>大戦略取説のようなもの</title>
+</head>
+<body>
+
+<h1>大戦略取説のようなもの</h1>
+
+<h2>概要</h2>
+
+<p>勝利条件は敵首都占領。また、敵を全滅させた上で首都その他の拠点を自軍ユニットで埋
+め、生産不能に追い込んでも勝利となる。</p>
+
+<h2>ゲームの開始</h2>
+
+<p>まずマップロードで攻略したいマップをロード。その後、ブルー軍をUSER, レッ
+ド軍をFAMICON(逆でもいいけど、プレイヤーがブルー軍を持つことを前提としたバラ
+ンス、らしい)にして、スタートボタンで開始。なお、マネーは都市からの収入に影
+響する(値が大きいほど収入が増える)。COM側はマネー100になるようなので、初心者
+は100にするのがいいだろう。</p>
+
+<p>セーブデータがある場合は CONTINUE で再開できる。</p>
+
+<h2>戦略フェイズ</h2>
+
+<h3>画面説明</h3>
+
+<h4>マップ画面</h4>
+<div><img src="img/Strategy-Map.png"></div>
+<p>「レート」はユニットの価格に影響する。基準価格にレートを乗じたものが実際
+の価格となる。レートはランダムに変動するが、序盤では上昇する傾向にある(株式
+のように、ユニットを買うと上がるようになっているのかも)。</p>
+<p>「7H」というのは、現在カーソルのあるマスと自軍首都との間の距離を表す。</p>
+
+<h4>ユニット一覧</h4>
+<div><img src="img/Strategy-UnitList.png"></div>
+<p>"U" の列はユニット数、"X", "Y" の列は座標、"FU" の列は燃料残量を表す。</p>
+<p>"TRN" の列は、輸送ユニットと被輸送ユニットとの関係を表している。"&gt;11"
+というのは11番のユニットに乗車しているという意味。また、"&lt; 2" というのは2
+番のユニットを乗せているという意味。</p>
+<p>"MOV" の列は移動状態を表す。"GO" は移動前、"END" は移動済、"GAS" は補給済
+だが移動前、"TRN" は輸送ユニットに乗車していることを示す。</p>
+<p>"S" の列はユニットの熟練度を表す。生産した直後は EXP が 0 なので "E" になっ
+ている。EXP を稼ぐと D, C, B, A と上昇していく(EXP16 くらいで B になることを
+確認)。</p>
+
+<h3>コマンド</h3>
+<dl>
+  <dt>移動</dt>
+  <dd>
+  <p>カーソル位置のユニットを移動させる。移動は1ターンに1回。自軍、敵軍を問
+  わず、ユニットを通り抜けて移動することはできない。敵ユニットと重なると戦術
+  フェイズへ移行する。</p>
+  <p>移動中に敵ユニットと隣接した場合は、そこから更に敵を避けて移動すること
+  はできない。ただし、移動前に既に敵と隣接している場合は一回だけ回避が可能。
+  回避したい場合は、移動しようとすると敵リストが表示されるのでBボタンでキャ
+  ンセルし、さらにBボタンで移動終了もキャンセルし、移動したい方向を押す。</p>
+  <p>ユニットは消費した移動力と同数の燃料を消費する。航空ユニットの場合、ター
+  ン終了時に燃料が5以下(この値はちょっと曖昧だが、7なら生き残ることを確認し
+  ている)だと墜落してしまう。余裕を持って補給すべし。</p>
+  <p>歩兵、工兵の場合、中立または敵軍の拠点ヘクス上で移動終了することで、そ
+  の拠点を占領できる。明示的に移動終了を行わなければならないことに注意(例え
+  ば、輸送ユニットから拠点ヘクスへ降車してもまだその時点では占領が行われな
+  い)。</p>
+  <p>歩兵、工兵の場合、移動後に隣接したイロコイスまたは補給車に乗車すること
+  ができる。その場合、乗車対象のユニットは移動終了状態となる。よって、可能な
+  らば乗車対象ユニットを先に移動させる方が得である。</p>
+  <p>イロコイス、補給車の場合、歩兵や工兵を乗車させていれば、移動後にそのユ
+  ニットを周囲1マスのどこかに降車させることができる。その場合、降車したユニッ
+  トは移動終了状態となる。</p>
+  </dd>
+  <dt>生産</dt>
+  <dd>
+  <p>ユニットを生産し、カーソル位置に配置する。生産可能なヘクスは、首都、首
+  都の周囲1マス(荒地、川、海、山岳は不可)、首都付近にある都市または空港である。首
+  都と都市では地上ユニット、空港では航空ユニットを生産できる。</p>
+  <p>自軍ユニット数は32が上限。それを超えて生産することはできない。</p>
+  </dd>
+  <dt>補給</dt>
+  <dd>
+  <p>カーソル位置のユニットに対して燃料、弾薬の補給を行う。補給可能なヘクス
+  は、補給車の周囲1マス、空港、首都、都市である。空港は航空ユニット、首都と
+  都市は地上ユニット、補給車は地上ユニットと垂直着陸可能な航空ユニット(イロ
+  コイス、ヒューイコブラ、ハリアー)に対して補給を行う(受け側のユニットが補給
+  車の進入できない地形(たぶん)にいると補給不可)。空港、首都、都市で補給を行っ
+  た場合は、ユニット数も2〜4程度回復する。</p>
+  <p>補給は移動前にしか行えない。なお、敵と隣接していても補給は可能。</p>
+  <p>補給を行うと若干の資金を消費する。</p>
+  </dd>
+  <dt>全補給</dt>
+  <dd>
+  <p>補給可能な全ユニットに対して補給を行う。ターン開始時にこのコマンドを実
+  行するのがいいだろう。</p>
+  </dd>
+  <dt>カーソルホーム</dt>
+  <dd>
+  <p>カーソルを自軍首都に移動させる。</p>
+  </dd>
+  <dt>ユニットチャート</dt>
+  <dd>
+  <p>ユニット一覧を見る。</p>
+  </dd>
+  <dt>終了</dt>
+  <dd>
+  <p>自軍ターンを終了する。</p>
+  </dd>
+  <dt>サブメニュー</dt>
+  <dd>
+  <p>サブメニュー(後述)を開く。</p>
+  </dd>
+</dl>
+
+<h3>サブメニューコマンド</h3>
+
+<dl>
+  <dt>プレイヤーチェンジ</dt>
+  <dd>
+  <p>両軍の担当(プレイヤーorCOM)を変更する。</p>
+  </dd>
+  <dt>セーブゲーム</dt>
+  <dd>
+  <p>セーブしてタイトルに戻る。セーブデータは電源を切っても残るが、CONTINUE
+  すると失われるのでセーブ&amp;リトライは不可。あくまで中断用。</p>
+  </dd>
+  <dt>降伏</dt>
+  <dd>
+  <p>降伏する。当然負けになる。</p>
+  </dd>
+  <dt>B.G.M, サウンド</dt>
+  <dd>
+  <p>BGMとサウンドをON/OFFする。</p>
+  </dd>
+  <dt>戦闘</dt>
+  <dd>
+  <p>戦闘アニメーションに関する設定。REAL, FAST, AUTO がある。FAST はアニメー
+  ションを省略して高速化する。REAL と AUTO の違いは今のところ不明。</p>
+  </dd>
+</dl>
+
+<h2>戦術フェイズ</h2>
+
+<h3>画面説明</h3>
+
+<div><img src="img/Tactics.png"></div>
+<p>"EXP" は経験値、"AVO" は回避率、"TER" は地形効果、"NUM" はユニット数を表
+す。</p>
+<p>"ATK" は恐らく機体性能のみを見たときの命中率。"COM" は、そこに経験値や地
+形効果などを加味した実際の命中率と思われる。</p>
+<p>EXP の 1/2 (端数切り捨て)が AVO になるらしい。EXP は敵ユニットを全滅させ
+ると1ポイント上昇する。</p>
+
+<h2>地形</h2>
+
+<p>※航空ユニット(移動タイプA)はどの地形も移動力消費1で通過可能。</p>
+<p>※航空ユニットには地形効果が付かない。</p>
+
+<table border="1">
+<thead>
+  <tr><th>グラ</th><th>名称</th><th>移動B</th><th>移動C</th><th>移動D</th><th>地形</th><th>備考</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td><img src="img/HexBig-01.png"> <img src="img/HexSmall-01.png" width="14" height="14"></td>
+    <td>平地</td>
+    <td align="right">1</td>
+    <td align="right">2</td>
+    <td align="right">1</td>
+    <td align="right">5</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-02.png"> <img src="img/HexSmall-02.png" width="14" height="14"></td>
+    <td>森</td>
+    <td align="right">2</td>
+    <td align="right">2</td>
+    <td align="right">1</td>
+    <td align="right">50</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-03.png"> <img src="img/HexSmall-03.png" width="14" height="14"></td>
+    <td>道路</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">0</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-04.png"> <img src="img/HexSmall-04.png" width="14" height="14"></td>
+    <td>砂漠</td>
+    <td align="right">2</td>
+    <td align="right">2</td>
+    <td align="right">1</td>
+    <td align="right">10</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-05.png"> <img src="img/HexSmall-05.png" width="14" height="14"></td>
+    <td>荒地</td>
+    <td align="right">3</td>
+    <td align="right">3</td>
+    <td align="right">2</td>
+    <td align="right">15</td>
+    <td>補給車は通過不能</td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-06.png"> <img src="img/HexSmall-06.png" width="14" height="14"></td>
+    <td>川</td>
+    <td align="right">×</td>
+    <td align="right">×</td>
+    <td align="right">2</td>
+    <td align="right">0</td>
+    <td>AMX10-RCは通過可能(移動力3消費)</td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-07.png"> <img src="img/HexSmall-07.png" width="14" height="14"></td>
+    <td>海</td>
+    <td align="right">×</td>
+    <td align="right">×</td>
+    <td align="right">×</td>
+    <td align="right">0</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-08.png"> <img src="img/HexSmall-08.png" width="14" height="14"></td>
+    <td>山</td>
+    <td align="right">×</td>
+    <td align="right">×</td>
+    <td align="right">2</td>
+    <td align="right">60</td>
+    <td>AMX10-RCは通過可能(移動力4消費)</td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-11.png"> <img src="img/HexSmall-11.png" width="14" height="14"></td>
+    <td>自軍首都</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">50</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-12.png"> <img src="img/HexSmall-12.png" width="14" height="14"></td>
+    <td>自軍空港</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">10</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-13.png"> <img src="img/HexSmall-13.png" width="14" height="14"></td>
+    <td>自軍都市</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">20</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-21.png"> <img src="img/HexSmall-21.png" width="14" height="14"></td>
+    <td>敵軍首都</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">50</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-22.png"> <img src="img/HexSmall-22.png" width="14" height="14"></td>
+    <td>敵軍空港</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">10</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-23.png"> <img src="img/HexSmall-23.png" width="14" height="14"></td>
+    <td>敵軍都市</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">20</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-32.png"> <img src="img/HexSmall-32.png" width="14" height="14"></td>
+    <td>中立空港</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">10</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="img/HexBig-31.png"> <img src="img/HexSmall-31.png" width="14" height="14"></td>
+    <td>中立都市</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">1</td>
+    <td align="right">20</td>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+<h2>ユニット</h2>
+
+<table border="1">
+<thead>
+  <tr>
+    <th>グラ</th><th>名称</th><th>種別</th><th>価格</th><th>移動</th>
+    <th>燃料</th><th>武装</th><th>備考</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td align="center"><img src="img/Unit-01.png" width="32" height="32"></td>
+    <td>F-16C</td>
+    <td>戦闘機</td>
+    <td align="right">2500</td>
+    <td align="right">12, A</td>
+    <td align="right">55</td>
+    <td>ミサイル*4, 機関砲*5</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-02.png" width="32" height="32"></td>
+    <td>ハリアー</td>
+    <td>戦闘機</td>
+    <td align="right">1800</td>
+    <td align="right">10, A</td>
+    <td align="right">45</td>
+    <td>ミサイル*2, 機関砲*4</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-03.png" width="32" height="32"></td>
+    <td>A-10</td>
+    <td>攻撃機</td>
+    <td align="right">1800</td>
+    <td align="right">8, A</td>
+    <td align="right">45</td>
+    <td>爆弾*4, 機関砲*4</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-04.png" width="32" height="32"></td>
+    <td>コルセア</td>
+    <td>攻撃機</td>
+    <td align="right">1500</td>
+    <td align="right">10, A</td>
+    <td align="right">55</td>
+    <td>爆弾*2, 機関砲*4</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-05.png" width="32" height="32"></td>
+    <td>ヒューイコブラ</td>
+    <td>攻撃ヘリ</td>
+    <td align="right">700</td>
+    <td align="right">7, A</td>
+    <td align="right">45</td>
+    <td>ミサイル*4, 機関砲*5</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-06.png" width="32" height="32"></td>
+    <td>イロコイス</td>
+    <td>輸送ヘリ</td>
+    <td align="right">200</td>
+    <td align="right">6, A</td>
+    <td align="right">45</td>
+    <td>機関砲*4</td>
+    <td>歩兵or工兵1ユニットを輸送可能</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-07.png" width="32" height="32"></td>
+    <td>レオパルドII</td>
+    <td>戦車</td>
+    <td align="right">600</td>
+    <td align="right">6, B</td>
+    <td align="right">60</td>
+    <td>砲弾*8, 機関砲*4</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-08.png" width="32" height="32"></td>
+    <td>AMX10-RC</td>
+    <td>装甲車</td>
+    <td align="right">250</td>
+    <td align="right">8, B</td>
+    <td align="right">80</td>
+    <td>砲弾*5, 機関砲*3</td>
+    <td>川を渡れる(移動力3消費)。山に登れる(移動力4消費)</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-09.png" width="32" height="32"></td>
+    <td>ゲパルト</td>
+    <td>対空戦車</td>
+    <td align="right">400</td>
+    <td align="right">6, B</td>
+    <td align="right">55</td>
+    <td>機関砲*8</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-10.png" width="32" height="32"></td>
+    <td>ローランドII</td>
+    <td>地対空ミサイル</td>
+    <td align="right">400</td>
+    <td align="right">6, B</td>
+    <td align="right">50</td>
+    <td>ミサイル*4</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-11.png" width="32" height="32"></td>
+    <td>補給車</td>
+    <td></td>
+    <td align="right">150</td>
+    <td align="right">6, C</td>
+    <td align="right">99</td>
+    <td>機関銃*4</td>
+    <td>荒地は通れない</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-12.png" width="32" height="32"></td>
+    <td>輸送トラック</td>
+    <td></td>
+    <td align="right">100</td>
+    <td align="right">6, C</td>
+    <td align="right">80</td>
+    <td>機関銃*4</td>
+    <td>歩兵or工兵1ユニットを輸送可能</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-13.png" width="32" height="32"></td>
+    <td>歩兵</td>
+    <td></td>
+    <td align="right">100</td>
+    <td align="right">3, D</td>
+    <td align="right">99</td>
+    <td>機関銃*9</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="img/Unit-14.png" width="32" height="32"></td>
+    <td>工兵</td>
+    <td></td>
+    <td align="right">200</td>
+    <td align="right">2, D</td>
+    <td align="right">99</td>
+    <td>ミサイル*3, 機関銃*3</td>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+<h2>ユニット相性表</h2>
+
+<p>表は横に見ること。</p>
+
+<table border="1">
+<thead>
+  <tr>
+    <th></th>
+    <th>F16</th><th>ハリ</th><th>A10</th><th>コル</th><th>ヒュ</th><th>イロ</th><th>レオ</th>
+    <th>AMX</th><th>ゲパ</th><th>ロー</th><th>補給</th><th>輸送</th><th>歩兵</th><th>工兵</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <th>F-16C</th>
+    <td align="center">○</td><td align="center">○</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">◎</td><td align="center">△</td><td align="center">△</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">△</td><td align="center">△</td>
+  </tr>
+  <tr>
+    <th>ハリアー</th>
+    <td align="center">△</td><td align="center">○</td><td align="center">◎</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">◎</td><td align="center">△</td><td align="center">△</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td>
+  </tr>
+  <tr>
+    <th>A-10</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td>
+  </tr>
+  <tr>
+    <th>コルセア</th>
+    <td align="center">×</td><td align="center">△</td><td align="center">△</td><td align="center">△</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td>
+  </tr>
+  <tr>
+    <th>ヒューイコブラ</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">○</td><td align="center">◎</td>
+    <td align="center">○</td><td align="center">○</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">○</td><td align="center">○</td>
+  </tr>
+  <tr>
+    <th>イロコイス</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td>
+  </tr>
+  <tr>
+    <th>レオパルドII</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">○</td><td align="center">◎</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td>
+  </tr>
+  <tr>
+    <th>AMX10-RC</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">○</td>
+    <td align="center">△</td><td align="center">○</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">○</td>
+  </tr>
+  <tr>
+    <th>ゲパルト</th>
+    <td align="center">△</td><td align="center">○</td><td align="center">△</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">○</td><td align="center">×</td><td align="center">△</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">○</td><td align="center">○</td>
+  </tr>
+  <tr>
+    <th>ローランドII</th>
+    <td align="center">○</td><td align="center">◎</td><td align="center">○</td><td align="center">◎</td>
+    <td align="center">◎</td><td align="center">◎</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td>
+  </tr>
+  <tr>
+    <th>補給車</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td>
+  </tr>
+  <tr>
+    <th>輸送トラック</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td>
+  </tr>
+  <tr>
+    <th>歩兵</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">△</td><td align="center">△</td>
+  </tr>
+  <tr>
+    <th>工兵</th>
+    <td align="center">×</td><td align="center">×</td><td align="center">×</td><td align="center">×</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">△</td><td align="center">△</td>
+    <td align="center">△</td><td align="center">△</td><td align="center">○</td><td align="center">○</td>
+    <td align="center">△</td><td align="center">△</td>
+  </tr>
+</tbody>
+</table>
+
+<h2>豆知識</h2>
+
+<p>兵員を輸送しているユニット(イロコイスまたは輸送トラック)が攻撃を受けると、
+乗車している歩兵(工兵)ユニットが消滅することがある。ただしこれはランダムなの
+で、たとえ残り1体まで撃ち減らされても中の歩兵は無事、ということもある。</p>
+
+<h2>いいかげんな攻略</h2>
+
+<p>序盤は輸送ヘリと歩兵をペアで生産し、中立の拠点を占領して収入を確保する。
+一方でAMXを少しずつ生産し、森や山岳に陣取って敵の前進を阻む。</p>
+
+<p>中盤になると収入が多くなってくるので、AMXを少しずつレオパルドに切り替え、
+地上戦でじりじりと押していく。</p>
+
+<p>終盤は敵もレオパルドを投入してくるので、コブラを数個生産して対処する。</p>
+
+<p>敵首都が射程内に入るあたりになると敵は警戒態勢に入り、首都とその周辺にゲ
+パルトを量産して防御陣を築くようになる。ゲパルトは地上戦でもかなり強いので、
+こうなってしまうと切り崩すのに非常に時間がかかる。そこで、可能ならば警戒態勢
+に入られる直前に空の輸送ヘリやコルセアなどの航空ユニットを敵首都とその周囲に
+突っ込ませておいてスペースを潰してしまうのがいいと思う。</p>
+
+<p>首都の占領は、周囲の敵を排除した上で輸送ヘリを使って首都に歩兵(できれば工
+兵)を降下させるのが手っ取り早い。これなら歩兵(工兵)が1ターン持ちこたえてくれ
+れば即勝ちになる。</p>
+
+<p>基本的にCOMはゲパルト量産を好むので、攻撃機は高価な割に効果が薄い。レオパ
+ルドはゲパルトに対して抜群に相性がいいので最も頼りになる。地形が狭隘でどうし
+ても攻撃機が必要な場合、資金が潤沢にあるならA-10量産がおすすめ(A-10はそう簡
+単には全滅しないので)。それほど資金に余裕のない中盤ではコブラが便利(レオパル
+ド等に対しては最強の攻撃力を発揮する)。</p>
+
+<p>ヘリを使いたいが空港がいい位置にない、という場合は、補給車を移動式給油所
+として利用する手もある。</p>
+
+<p>輸送ヘリや攻撃ヘリを大量生産して首都を直撃する作戦も考えられるが、地形そ
+の他の条件が揃っていないと成功させるのは厳しい。</p>
+
+<h2>裏技的攻略</h2>
+
+<p>空の輸送ヘリを道路脇に置いておくと、COMの地上部隊はそれ以上進軍してこなく
+なる…かも(特にレオパルド等、対空性能があまりよくないユニットが先頭にいる場
+合)。足止め用に。これに限らず、安くて弱いユニットを盾にするのは割と有効なテ
+クニック。</p>
+
+</body>
+</html>
